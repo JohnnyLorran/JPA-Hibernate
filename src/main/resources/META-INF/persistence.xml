@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+
+    <persistence-unit name="loja" transaction-type="RESOURCE_LOCAL">
+        <!--O class é para o JPA, sempre que tiver uma entity adicionar ela aqui  -->
+        <!--Mas se estiver utilizando o hibernate não é necessário -->
+        <!--Obs: se adicionar uma só e tiver mais de uma, o hibernate só irá olhar para a que está aqui -->
+        <!--Adiciona todas ou não adiciona nenhuma -->
+        <class>br.com.loja.model.Produto</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:loja"/>
+            <property name="javax.persistence.jdbc.user" value="johnny"/>
+            <property name="javax.persistence.jdbc.password" value="admin"/>
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <!-- printa no console os comandos em SQL que foram aplicados no banco -->
+            <property name="hibernate.show_sql" value="true"/>
+            <!--Cria as tabelas  no banco, caso não exista -->
+            <!-- create : sempre que rodar o projeto, irá criar as tabelas -->
+            <!-- create-drop : sempre que rodar o projeto, irá criar as tabelas e quando parar o projeto, dá um drop nas tabelas -->
+            <!-- update : Verifica se tem alguma alteração na tabela, se tiver, adiciona -->
+            <!-- validate : valida a tabela e gera um log, não cria nada -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>
