@@ -1,7 +1,9 @@
 package br.com.loja.model;
 
+
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 //Anotação dizendo que essa classe é uma entity
 //Entity é uma tabela do banco de dados
@@ -21,7 +23,20 @@ public class Produto {
         //@Column(name = "desc")
         private String descricao;
         private BigDecimal preco;
+        private LocalDate dataCadastro = LocalDate.now();
+        //Anotação para dizer que vamos utilizar a String que está dentro do Enum e não a posição dela
+        @ManyToOne
+        private Categoria categoria;
 
+    public Produto() {
+    }
+
+    public Produto(String nome, String descricao, BigDecimal preco,Categoria categoria){
+            this.nome = nome;
+            this.descricao = descricao;
+            this.preco = preco;
+            this.categoria = categoria;
+        }
 
     public Long getId() {
         return id;
@@ -49,5 +64,17 @@ public class Produto {
 
     public BigDecimal getPreco() {
         return preco;
+    }
+
+    public LocalDate getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria= categoria;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
     }
 }

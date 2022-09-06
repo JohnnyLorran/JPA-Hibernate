@@ -10,6 +10,7 @@
         <!--Obs: se adicionar uma só e tiver mais de uma, o hibernate só irá olhar para a que está aqui -->
         <!--Adiciona todas ou não adiciona nenhuma -->
         <class>br.com.loja.model.Produto</class>
+        <class>br.com.loja.model.Categoria</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:loja"/>
@@ -19,6 +20,7 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <!-- printa no console os comandos em SQL que foram aplicados no banco -->
             <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
             <!--Cria as tabelas  no banco, caso não exista -->
             <!-- create : sempre que rodar o projeto, irá criar as tabelas -->
             <!-- create-drop : sempre que rodar o projeto, irá criar as tabelas e quando parar o projeto, dá um drop nas tabelas -->

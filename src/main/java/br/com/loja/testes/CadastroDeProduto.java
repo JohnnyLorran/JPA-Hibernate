@@ -1,33 +1,54 @@
 package br.com.loja.testes;
 
+import br.com.loja.dao.CategoriaDAO;
+import br.com.loja.dao.ProdutoDAO;
+import br.com.loja.model.Categoria;
 import br.com.loja.model.Produto;
+import br.com.loja.util.JPAUtil;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class CadastroDeProduto {
     public static void main(String[] args) {
-        Produto celular = new Produto();
-        celular.setNome("Xiaomi Redmi");
-        celular.setDescricao("8Gb de memória RAM, 128Gb de armazenamento");
-        celular.setPreco(new BigDecimal("1500"));
+        cadastrarProduto();
+        Long id = 1L;
 
-        //Para salvar precisamos de uma factory e uma entityManager
-        //Dentro da factory passamos o nome do persistence-unit declarado no persistence.xml
-        //para dizer que os dados serão salvos naquele banco
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("loja");
-        EntityManager entityManager =  factory.createEntityManager();
+        EntityManager entityManager = JPAUtil.getEntityManager();
+        ProdutoDAO produtoDAO = new ProdutoDAO(entityManager);
+
+        Produto p = produtoDAO.buscarProdutoId(1L);
+        System.out.println(p.getPreco());
+
+        List<Produto> produtos = produtoDAO.buscarProdutoPorCategoria("CELULARES");
+
+        produtos.forEach( pr -> System.out.println(pr.getNome()));
+
+        BigDecimal precoDoProduto = produtoDAO.buscarProdutoPreco("Xiaomi Redmi");
+        System.out.println(precoDoProduto);
+
+    }
+
+    private static void cadastrarProduto(){
+        Categoria celulares = new Categoria("CELULARES");
+        Produto celular = new Produto("Xiaomi Redmi","8Gb de memória RAM, 128Gb de armazenamento",new BigDecimal("1500"), celulares);
+
+
+        EntityManager entityManager = JPAUtil.getEntityManager();
+        CategoriaDAO categoriaDAO = new CategoriaDAO(entityManager);
+        ProdutoDAO produtoDAO = new ProdutoDAO(entityManager);
+
 
         //Começa a fazer a ponte com o banco
         entityManager.getTransaction().begin();
+        categoriaDAO.cadastrar(celulares);
         //adiciona o celular
-        entityManager.persist(celular);
+        produtoDAO.cadastrar(celular);
         //Commita para salvar a alteração no banco
         entityManager.getTransaction().commit();
         //Fechando a ponte
         entityManager.close();
-
     }
+
 }
